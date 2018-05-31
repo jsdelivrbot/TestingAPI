@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const Employee = require('./models/employee.model');
 const Department = require('./models/department.model');
 
+const PORT = process.env.PORT || 5000
+
 const connstr = 'mongodb://maruf:maruf@ds133920.mlab.com:33920/apitesting'
 
 mongoose.connect(connstr);
@@ -66,4 +68,4 @@ app.post('/employee', (req, res) => {
 
 
 
-app.listen(8080, () => console.log('Server start listening on port 8080'));
+app.listen(PORT, () => console.log('Server start listening on port 8080'));
