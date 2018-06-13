@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const InforOrder = require('./models/infororder.model');
 const HRSubmission = require('./models/hrsubmission.model');
+const CustomAPI = require('./models/customapi.model');
 const Employee = require('./models/employee.model');
 const Department = require('./models/department.model');
 
@@ -129,6 +130,39 @@ app.post('/hrsubmission', (req, res) => {
     });
 
 });
+
+app.get('/customapi', (req, res) => {
+    CustomAPI.find({})
+        .exec((err, customapis) => {
+            if (err) {
+                res.send('error while find hrsubmission :' + err);
+            } else {
+                console.log(customapis);
+                res.json(customapis);
+            }
+        })
+});
+
+app.post('/customapi', (req, res) => {
+    console.log(req.body);
+    var customapi = new CustomAPI({
+        runway: req.body.runway,
+        contaminents: req.body.contaminents
+    });
+  
+
+    customapi.save((err, customapi) => {
+        if (err) {
+            res.send('error while saving HR Submission : ' + err);
+        } else {
+            console.log(customapi);
+            res.json(customapi);
+        }
+
+    });
+
+});
+
 
 
 
