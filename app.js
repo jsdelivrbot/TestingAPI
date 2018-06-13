@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+require('body-parser-xml')(bodyParser);
+const xml = require('xml');
 const mongoose = require('mongoose');
 const InforOrder = require('./models/infororder.model');
 const HRSubmission = require('./models/hrsubmission.model');
@@ -17,10 +19,12 @@ mongoose.connect(connstr);
 const app = express();
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
+app.use(bodyParser.xml());
 
 app.get('/', (req, res) =>  res.send('Hello World!'));
 
@@ -158,6 +162,37 @@ app.post('/customapi', (req, res) => {
         } else {
             console.log(customapi);
             res.json(customapi);
+        }
+
+    });
+
+});
+
+
+app.post('/customapixml', (req, res, body) => {
+    console.log(req.body);
+    //console.log(req.body.customapi.contaminents[0].contaminent[0].contamcode);
+    //res.type('application/xml');
+    //res.send(xml(req.body));
+    var customapi = new CustomAPI({
+        contaminents: [],
+        airportname: req.body.customapi.airport[0]
+    });
+    if (req.body.customapi.contaminents[0].contaminent.length>0){
+        req.body.customapi.contaminents[0].contaminent.forEach(element => {
+            customapi.contaminents.push({contamcode: element.contamcode[0], cleared: element.cleared[0]})
+        });
+    }
+   
+
+
+    customapi.save((err, customapi) => {
+        if (err) {
+            res.send('error while saving HR Submission : ' + err);
+        } else {
+            console.log(customapi);
+            res.type('text/xml');
+            res.send(xml(customapi));
         }
 
     });

@@ -3,6 +3,6 @@
   "description": "Testing an VEOCI API from this and recieve and auto generated Ids",
   "repository": "https://github.com/marufdeveloper/TestingAPI",
   "logo": "https://cdn.rawgit.com/heroku/node-js-getting-started/master/public/node.svg",
-  "keywords": ["node", "express", "heroku", "mongoose", "body-parser"],
+  "keywords": ["node", "express", "heroku", "mongoose", "body-parser","body-parser-xml"],
   "image": "heroku/nodejs"
 }
