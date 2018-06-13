@@ -147,7 +147,8 @@ app.post('/customapi', (req, res) => {
     console.log(req.body);
     var customapi = new CustomAPI({
         runway: req.body.runway,
-        contaminents: req.body.contaminents
+        contaminents: req.body.contaminents,
+        airportname:req.body.airportname
     });
   
 
