@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const InforOrder = require('./models/infororder.model');
+const HRSubmission = require('./models/hrsubmission.model');
 const Employee = require('./models/employee.model');
 const Department = require('./models/department.model');
 
@@ -92,6 +93,37 @@ app.post('/infororder', (req, res) => {
         } else {
             console.log(infororder);
             res.json(infororder);
+        }
+
+    });
+
+});
+
+app.get('/hrsubmission', (req, res) => {
+    HRSubmission.find({})
+        .exec((err, hrsubmission) => {
+            if (err) {
+                res.send('error while find hrsubmission :' + err);
+            } else {
+                console.log(hrsubmission);
+                res.json(hrsubmission);
+            }
+        })
+});
+
+app.post('/hrsubmission', (req, res) => {
+    var hrsubmission = new HRSubmission({
+        name: req.body.name,
+        position: req.body.position,
+        profiledetails: req.body.profiledetails
+    });
+
+    hrsubmission.save((err, hrsubmission) => {
+        if (err) {
+            res.send('error while saving HR Submission : ' + err);
+        } else {
+            console.log(hrsubmission);
+            res.json(hrsubmission);
         }
 
     });
